@@ -1,0 +1,17 @@
+<div class="space-y-3">
+  @for (evaluation of evaluations; track evaluation.id) {
+    <mat-card appearance="outlined">
+      <mat-card-header>
+        <mat-card-title>
+          <app-star-rating [rate]="evaluation.rate"></app-star-rating> on
+          {{ evaluation.company + evaluation.flightNumber }} of the
+          {{ evaluation.flightDate.format(dateFormat) }}
+        </mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <p>{{ evaluation.comment }}</p>
+      </mat-card-content>
+    </mat-card>
+  }
+</div>

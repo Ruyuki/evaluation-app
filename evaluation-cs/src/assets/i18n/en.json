@@ -1,0 +1,63 @@
+{
+  "app-title": "Flight evaluation app",
+  "menu": {
+    "evaluation": "Evaluate",
+    "admin": "Admin"
+  },
+  "evaluation": {
+    "evaluate-flight": {
+      "title": "Evaluate your flight",
+      "your-flight": "Your flight",
+      "tips": "Indicate which was you flight",
+      "rate-flight": "Rate and comment",
+      "tips-rate": "Give us your feedback",
+      "field": {
+        "company": "Company",
+        "flight-number": "Flight number",
+        "flight-date": "Flight date",
+        "rating": "Rating",
+        "comment": "Comment"
+      },
+      "errors": {
+        "required": "Required",
+        "company": "Company is 2 characters long",
+        "flight-number": "Flight number is 4 characters long",
+        "comment": "Comment is 4000 numbers long max"
+      },
+      "buttons": {
+        "submit": "Submit evaluation"
+      }
+    },
+    "our-evaluations": {
+      "title": "Look at our evaluations",
+      "no-evaluation": "No evaluation."
+    }
+  },
+  "admin": {
+    "filter": {
+      "title": "Filter evaluations",
+      "company": "Company",
+      "flight-number": "Flight number",
+      "rate": "Rate",
+      "status": "Status",
+      "statuses": {
+        "all": "All",
+        "pending": "Pending",
+        "published": "Published",
+        "rejected": "Rejected"
+      }
+    },
+    "table": {
+      "column": {
+        "creation-date": "Created on",
+        "company": "Company",
+        "flight-number": "Flight number",
+        "flight-date": "Flight date",
+        "rate": "Rate",
+        "comment": "Comment",
+        "status": "Status"
+      },
+      "no-evaluation": "No evaluation"
+    }
+  }
+}

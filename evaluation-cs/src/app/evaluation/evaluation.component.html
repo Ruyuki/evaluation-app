@@ -1,0 +1,17 @@
+<div class="flex space-x-5">
+  <div>
+    <h2 translate>evaluation.evaluate-flight.title</h2>
+    <app-evaluation-edition></app-evaluation-edition>
+  </div>
+  <div>
+    <h2 translate>evaluation.our-evaluations.title</h2>
+
+    @if (evaluations$ | async; as evaluations) {
+      @if (evaluations.length > 0) {
+        <app-evaluation-list [evaluations]="evaluations"></app-evaluation-list>
+      } @else {
+        <p translate>evaluation.our-evaluations.no-evaluation</p>
+      }
+    }
+  </div>
+</div>

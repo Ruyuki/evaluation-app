@@ -1,0 +1,22 @@
+<div class="h-screen">
+  <mat-toolbar>
+    <a [routerLink]="['/']" translate>app-title</a>
+  </mat-toolbar>
+
+  <mat-drawer-container class="drawer-container">
+    <mat-drawer mode="side" opened>
+      <mat-nav-list>
+        <mat-list-item [routerLink]="['/']">
+          <a matListItemTitle translate>menu.evaluation</a>
+        </mat-list-item>
+        <mat-list-item [routerLink]="['/admin']">
+          <a matListItemTitle translate>menu.admin</a>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-drawer>
+
+    <mat-drawer-content class="p-3">
+      <router-outlet />
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>

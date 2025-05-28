@@ -1,0 +1,14 @@
+<span
+  *ngFor="let star of [].constructor(max); let i = index"
+  [ngClass]="{ 'text-yellow-500': i < rate }"
+>
+  @if (mode === starRatingMode.READONLY) {
+    <mat-icon>
+      {{ i < rate ? "star" : "star_border" }}
+    </mat-icon>
+  } @else {
+    <mat-icon class="cursor-pointer" (click)="setRating(i + 1)">
+      {{ i < rate ? "star" : "star_border" }}
+    </mat-icon>
+  }
+</span>

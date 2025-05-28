@@ -1,0 +1,157 @@
+<mat-card appearance="outlined" class="mb-3">
+  <mat-card-header>
+    <mat-card-title translate>admin.filter.title</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="mt-3">
+    <form
+      [formGroup]="searchForm"
+      (submit)="applyFilter(searchForm.value)"
+      class="flex space-x-3"
+    >
+      <mat-form-field>
+        <mat-label translate>admin.filter.company</mat-label>
+        <input matInput formControlName="company" />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label translate>admin.filter.flight-number</mat-label>
+        <input matInput formControlName="flightNumber" />
+      </mat-form-field>
+
+      <div class="flex flex-col">
+        <mat-label translate>admin.filter.rate</mat-label>
+        <mat-slider
+          [min]="minRate"
+          [max]="maxRate"
+          step="1"
+          tickInterval="1"
+          discrete
+        >
+          <input matInput formControlName="minRate" matSliderStartThumb />
+          <input matInput formControlName="maxRate" matSliderEndThumb />
+        </mat-slider>
+      </div>
+
+      <mat-form-field>
+        <mat-label translate>admin.filter.status</mat-label>
+        <mat-select formControlName="status">
+          <mat-option value="">{{
+            "admin.filter.statuses.all" | translate
+          }}</mat-option>
+          <ng-container *ngFor="let status of evaluationStatus | keyvalue">
+            <mat-option [value]="status.value">
+              {{
+                "admin.filter.statuses." + (status.value | lowercase)
+                  | translate
+              }}
+            </mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-icon-button color="primary" type="submit">
+        <mat-icon>search</mat-icon>
+      </button>
+      <button mat-icon-button type="button" (click)="resetFilter()">
+        <mat-icon>clear</mat-icon>
+      </button>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+<mat-card appearance="outlined">
+  <mat-card-content>
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      (matSortChange)="onSortChange(searchForm.value, $event)"
+    >
+      <!-- Creation date Column -->
+      <ng-container matColumnDef="creationDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <span translate>admin.table.column.creation-date</span>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          {{ row.creationDate.format(dateHourFormat) }}
+        </td>
+      </ng-container>
+
+      <!-- Rate Column -->
+      <ng-container matColumnDef="rate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header translate>
+          <span translate>admin.table.column.rate</span>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <app-star-rating
+            [rate]="row.rate"
+            [mode]="starRatingMode.READONLY"
+          ></app-star-rating>
+        </td>
+      </ng-container>
+
+      <!-- Company Column -->
+      <ng-container matColumnDef="company">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header translate>
+          <span translate>admin.table.column.company</span>
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row.company }}</td>
+      </ng-container>
+
+      <!-- Flight number Column -->
+      <ng-container matColumnDef="flightNumber">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header translate>
+          <span translate>admin.table.column.flight-number</span>
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row.flightNumber }}</td>
+      </ng-container>
+
+      <!-- Flight date Column -->
+      <ng-container matColumnDef="flightDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header translate>
+          <span translate>admin.table.column.flight-date</span>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          {{ row.flightDate.format(dateFormat) }}
+        </td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header translate>
+          <span translate>admin.table.column.status</span>
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row.status }}</td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef translate></th>
+        <td mat-cell *matCellDef="let row">
+          <button
+            mat-icon-button
+            color="primary"
+            [routerLink]="['/admin', 'detail', row.id]"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      <!-- Row shown when there is no matching data. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="7" translate>
+          admin.table.no-evaluation
+        </td>
+      </tr>
+    </table>
+
+    <mat-paginator
+      [pageSizeOptions]="[10, 50, 100]"
+      (page)="onPageChange(searchForm.value, $event)"
+    ></mat-paginator>
+  </mat-card-content>
+</mat-card>

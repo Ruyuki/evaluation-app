@@ -1,0 +1,89 @@
+<form
+  [formGroup]="evaluationForm"
+  (ngSubmit)="submitEvaluation(evaluationForm.value, formDirective)"
+  #formDirective="ngForm"
+  class="space-y-3"
+>
+  <h3 translate>evaluation.evaluate-flight.your-flight</h3>
+  <p translate>evaluation.evaluate-flight.tips</p>
+
+  <div class="flex space-x-3">
+    <mat-form-field class="max-w-32">
+      <mat-label translate>evaluation.evaluate-flight.field.company</mat-label>
+      <input matInput formControlName="company" />
+      <mat-error *ngIf="company?.hasError('required')" translate
+        >evaluation.evaluate-flight.errors.required</mat-error
+      >
+      <mat-error
+        *ngIf="company?.hasError('minlength') || company?.hasError('maxlength')"
+        translate
+        >evaluation.evaluate-flight.errors.company</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field class="max-w-40">
+      <mat-label translate
+        >evaluation.evaluate-flight.field.flight-number</mat-label
+      >
+      <input matInput formControlName="flightNumber" />
+      <mat-error *ngIf="flightNumber?.hasError('required')" translate
+        >evaluation.evaluate-flight.errors.required</mat-error
+      >
+      <mat-error
+        *ngIf="
+          flightNumber?.hasError('minlength') ||
+          flightNumber?.hasError('maxlength')
+        "
+        translate
+        >evaluation.evaluate-flight.errors.flight-number</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label translate
+        >evaluation.evaluate-flight.field.flight-date</mat-label
+      >
+      <input
+        matInput
+        formControlName="flightDate"
+        [matDatepicker]="flightDatePicker"
+      />
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="flightDatePicker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #flightDatePicker></mat-datepicker>
+      <mat-error *ngIf="flightDate?.hasError('required')" translate
+        >evaluation.evaluate-flight.errors.required</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <h3 translate>evaluation.evaluate-flight.rate-flight</h3>
+  <p translate>evaluation.evaluate-flight.tips-rate</p>
+
+  <div class="flex flex-col">
+    <mat-label translate>evaluation.evaluate-flight.field.rating</mat-label>
+    <app-star-rating
+      [mode]="starRatingMode.EDITABLE"
+      [rate]="rate?.value"
+      (ratingChange)="rate?.setValue($event); rate?.markAsTouched()"
+    ></app-star-rating>
+
+    <mat-form-field>
+      <mat-label translate>Comment</mat-label>
+      <textarea matInput formControlName="comment"></textarea>
+      <mat-error *ngIf="comment?.hasError('required')" translate
+        >evaluation.evaluate-flight.errors.required</mat-error
+      >
+      <mat-error *ngIf="comment?.hasError('maxlength')" translate
+        >evaluation.evaluate-flight.errors.comment</mat-error
+      >
+    </mat-form-field>
+  </div>
+  <div class="flex justify-end">
+    <button mat-flat-button type="submit" [disabled]="evaluationForm.invalid">
+      {{ "evaluation.evaluate-flight.buttons.submit" | translate }}
+    </button>
+  </div>
+</form>

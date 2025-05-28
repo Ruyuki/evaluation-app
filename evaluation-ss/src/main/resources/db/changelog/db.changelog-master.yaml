@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: "Initial setup"
+      author: florent.dedieu
+      comment: Initialization of the database schema
+      changes:
+        - createTable:
+            tableName: evaluation
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: company
+                  type: varchar(2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: flight_number
+                  type: varchar(4)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: flight_date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: rate
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: comment
+                  type: varchar(4000)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: creation_date
+                  type: datetime
+                  constraints:
+                    nullable: false
