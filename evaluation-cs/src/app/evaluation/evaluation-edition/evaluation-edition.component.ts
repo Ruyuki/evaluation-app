@@ -77,6 +77,14 @@ export class EvaluationEditionComponent {
     return this.evaluationForm.get('comment');
   }
 
+  /**
+   * Submits the provided evaluation data.
+   *
+   * On successful submission, the evaluation form and the form directive are reset.
+   *
+   * @param evaluation - The evaluation data to be submitted.
+   * @param formDirective - The form directive associated with the evaluation form, used for resetting the form state.
+   */
   submitEvaluation(
     evaluation: Evaluation,
     formDirective: FormGroupDirective,

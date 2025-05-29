@@ -21,6 +21,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 })
 export class AppComponent {
   constructor(private translate: TranslateService) {
+    // Set the language to use for all apps labels
     this.translate.setDefaultLang('en');
     this.translate.use('en');
   }

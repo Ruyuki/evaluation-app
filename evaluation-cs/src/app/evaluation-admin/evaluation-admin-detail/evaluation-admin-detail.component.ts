@@ -73,6 +73,12 @@ export class EvaluationAdminDetailComponent {
     return this.evaluationDetailForm.get('comment');
   }
 
+  /**
+   * Updates the status of an evaluation by sending the new status to the evaluation service.
+   *
+   * @param evaluationId - The unique identifier of the evaluation to update.
+   * @param $event - The selection change event containing the new status value.
+   */
   changeStatus(evaluationId: number, $event: MatSelectChange) {
     this.evaluationService
       .putEvaluationStatus(evaluationId, $event.value)
@@ -84,6 +90,16 @@ export class EvaluationAdminDetailComponent {
       });
   }
 
+  /**
+   * Submits an answer for a specific evaluation.
+   *
+   * Sends the provided answer to the backend using the evaluation service.
+   * On success, refreshes the evaluation data and resets the form.
+   *
+   * @param evaluationId - The unique identifier of the evaluation.
+   * @param answer - The answer object to be submitted.
+   * @param formDirective - The form directive used to reset the form state.
+   */
   submitAnswer(
     evaluationId: number,
     answer: Answer,

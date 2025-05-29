@@ -40,7 +40,7 @@ export interface Answer {
   comment: string;
 }
 
-export interface SearchEvaluationDTO {
+export interface SearchEvaluationAPI {
   company: string | null;
   flightNumber: string | null;
   minRate: number | null;

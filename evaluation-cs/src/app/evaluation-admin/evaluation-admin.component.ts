@@ -12,7 +12,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import {
   Evaluation,
   EvaluationStatus,
-  SearchEvaluationDTO,
+  SearchEvaluationAPI,
 } from '../shared/models/evaluation.model';
 import { EvaluationService } from '../shared/services/evaluation.service';
 import {
@@ -67,7 +67,7 @@ export class EvaluationAdminComponent {
   minRate = MIN_RATE;
   maxRate = MAX_RATE;
 
-  private defaultSearchEvaluationDTO: SearchEvaluationDTO = {
+  private defaultSearchEvaluationAPI: SearchEvaluationAPI = {
     company: null,
     flightNumber: null,
     minRate: MIN_RATE,
@@ -100,16 +100,16 @@ export class EvaluationAdminComponent {
     private formBuilder: FormBuilder,
   ) {
     this.searchForm = this.formBuilder.group({
-      company: [this.defaultSearchEvaluationDTO.company],
+      company: [this.defaultSearchEvaluationAPI.company],
       flightNumber: [null],
-      minRate: [this.defaultSearchEvaluationDTO.minRate],
-      maxRate: [this.defaultSearchEvaluationDTO.maxRate],
-      status: [this.defaultSearchEvaluationDTO.status],
+      minRate: [this.defaultSearchEvaluationAPI.minRate],
+      maxRate: [this.defaultSearchEvaluationAPI.maxRate],
+      status: [this.defaultSearchEvaluationAPI.status],
     });
 
     // Default search for evaluations (last 10 evaluations)
     this.searchEvaluations(
-      this.defaultSearchEvaluationDTO,
+      this.defaultSearchEvaluationAPI,
       0,
       this.defaultPageSize,
       this.defaultSortField,
@@ -122,9 +122,15 @@ export class EvaluationAdminComponent {
     this.dataSource.sort = this.sort;
   }
 
-  applyFilter(searchEvaluationDTO: SearchEvaluationDTO): void {
+  /**
+   * Applies a filter to the evaluations list based on the provided search criteria.
+   * Resets the pagination to the first page.
+   *
+   * @param searchEvaluationAPI - The data transfer object containing the search criteria for filtering evaluations.
+   */
+  applyFilter(searchEvaluationAPI: SearchEvaluationAPI): void {
     this.searchEvaluations(
-      searchEvaluationDTO,
+      searchEvaluationAPI,
       0,
       this.defaultPageSize,
       this.defaultSortField,
@@ -132,17 +138,26 @@ export class EvaluationAdminComponent {
     );
   }
 
+  /**
+   * Resets the search form to its default values and reapplies the filter using the default search criteria.
+   */
   resetFilter(): void {
-    this.searchForm.reset(this.defaultSearchEvaluationDTO);
-    this.applyFilter(this.defaultSearchEvaluationDTO);
+    this.searchForm.reset(this.defaultSearchEvaluationAPI);
+    this.applyFilter(this.defaultSearchEvaluationAPI);
   }
 
+  /**
+   * Handles the pagination event for the evaluation list.
+   *
+   * @param searchEvaluationAPI - The current search criteria for evaluations.
+   * @param event - The pagination event containing the new page index and page size.
+   */
   onPageChange(
-    searchEvaluationDTO: SearchEvaluationDTO,
+    searchEvaluationAPI: SearchEvaluationAPI,
     event: PageEvent,
   ): void {
     this.searchEvaluations(
-      searchEvaluationDTO,
+      searchEvaluationAPI,
       event.pageIndex,
       event.pageSize,
       this.sort.active || this.defaultSortField,
@@ -150,9 +165,15 @@ export class EvaluationAdminComponent {
     );
   }
 
-  onSortChange(searchEvaluationDTO: SearchEvaluationDTO, event: Sort): void {
+  /**
+   * Handles changes in the sorting of evaluation data.
+   *
+   * @param searchEvaluationAPI - The current search criteria for evaluations.
+   * @param event - The sort event containing the active column and direction.
+   */
+  onSortChange(searchEvaluationAPI: SearchEvaluationAPI, event: Sort): void {
     this.searchEvaluations(
-      searchEvaluationDTO,
+      searchEvaluationAPI,
       this.paginator.pageIndex,
       this.paginator.pageSize,
       event.active,
@@ -160,23 +181,32 @@ export class EvaluationAdminComponent {
     );
   }
 
+  /**
+   * Searches for evaluations based on the provided criteria and updates the data source for the table.
+   *
+   * @param searchEvaluationAPI - The data transfer object containing search filters such as company, flight number, and status.
+   * @param page - The current page number for pagination.
+   * @param pageSize - The number of items to display per page.
+   * @param sortField - The field by which to sort the results.
+   * @param sortDirection - The direction of sorting ('asc' or 'desc').
+   */
   searchEvaluations(
-    searchEvaluationDTO: SearchEvaluationDTO,
+    searchEvaluationAPI: SearchEvaluationAPI,
     page: number,
     pageSize: number,
     sortField: string,
     sortDirection: string,
   ): void {
-    searchEvaluationDTO = {
-      ...searchEvaluationDTO,
-      company: searchEvaluationDTO.company || null,
-      flightNumber: searchEvaluationDTO.flightNumber || null,
-      status: searchEvaluationDTO.status || null,
+    searchEvaluationAPI = {
+      ...searchEvaluationAPI,
+      company: searchEvaluationAPI.company || null,
+      flightNumber: searchEvaluationAPI.flightNumber || null,
+      status: searchEvaluationAPI.status || null,
     };
 
     this.evaluationService
       .searchEvaluations(
-        searchEvaluationDTO,
+        searchEvaluationAPI,
         page,
         pageSize,
         sortField,

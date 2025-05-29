@@ -1,28 +1,26 @@
 # Getting Started
 
-### Reference Documentation
-For further reference, please consider the following sections:
+### Install PostGreSql and Creation the DB
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/3.5.0/maven-plugin)
-* [Create an OCI image](https://docs.spring.io/spring-boot/3.5.0/maven-plugin/build-image.html)
-* [Spring Boot DevTools](https://docs.spring.io/spring-boot/3.5.0/reference/using/devtools.html)
-* [Spring Web](https://docs.spring.io/spring-boot/3.5.0/reference/web/servlet.html)
-* [Spring Data JPA](https://docs.spring.io/spring-boot/3.5.0/reference/data/sql.html#data.sql.jpa-and-spring-data)
-* [Liquibase Migration](https://docs.spring.io/spring-boot/3.5.0/how-to/data-initialization.html#howto.data-initialization.migration-tool.liquibase)
+- Install PostGreSql from https://www.postgresql.org/
+- Create a user "EVALUATION" with "Create databases" priviledge with password "EVALUATION"
+- Create a database "EVALUATION" with the user "EVALUATION" as owner
 
-### Guides
-The following guides illustrate how to use some features concretely:
+### Install JDK 17
 
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/rest/)
-* [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
+- Download and install JDK 17 from : https://jdk.java.net/java-se-ri/17-MR1
+- Set its path in the JAVA_HOME environment variable
+- Add %JAVA_HOME% to the PATH environment variable
 
-### Maven Parent overrides
+### Install JDK 17
 
-Due to Maven's design, elements are inherited from the parent POM to the project POM.
-While most of the inheritance is fine, it also inherits unwanted elements like `<license>` and `<developers>` from the parent.
-To prevent this, the project POM contains empty overrides for these elements.
-If you manually switch to a different parent and actually want the inheritance, you need to remove those overrides.
+- Download and install Maven from : https://maven.apache.org/download.cgi
+- Set its path in the MAVEN_HOME environment variable
+- Add %MAVEN_HOME% to the PATH environment variable
 
+### Start the back-end
+
+```
+cd [your-path]/evaluation/evaluation-ss
+mvn spring-boot:run
+```
