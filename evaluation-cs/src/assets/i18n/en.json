@@ -4,6 +4,10 @@
     "evaluation": "Evaluate",
     "admin": "Admin"
   },
+  "global": {
+    "error": "An error occured, please try again",
+    "close": "Close"
+  },
   "evaluation": {
     "evaluate-flight": {
       "title": "Evaluate your flight",

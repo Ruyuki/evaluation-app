@@ -5,7 +5,7 @@ import {
   NgFor,
   NgIf,
 } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -18,8 +18,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { EvaluationDetailComponent } from '../../shared/components/evaluation-detail/evaluation-detail.component';
 import {
@@ -28,6 +29,7 @@ import {
   EvaluationStatus,
 } from '../../shared/models/evaluation.model';
 import { EvaluationService } from '../../shared/services/evaluation.service';
+import { AlertService } from '../../shared/services/alert.service';
 
 @Component({
   selector: 'app-evaluation-admin-detail',
@@ -50,6 +52,8 @@ import { EvaluationService } from '../../shared/services/evaluation.service';
   templateUrl: './evaluation-admin-detail.component.html',
 })
 export class EvaluationAdminDetailComponent {
+  private snackBar = inject(MatSnackBar);
+
   evaluationStatus = EvaluationStatus;
 
   evaluation$: Observable<Evaluation>;
@@ -60,6 +64,7 @@ export class EvaluationAdminDetailComponent {
     private evaluationService: EvaluationService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
+    private alertService: AlertService,
   ) {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.evaluation$ = this.evaluationService.getEvaluationById(id);
@@ -86,6 +91,7 @@ export class EvaluationAdminDetailComponent {
         next: () => {},
         error: (error) => {
           console.error('Error updating evaluation status:', error);
+          this.alertService.displayGenericError();
         },
       });
   }
@@ -115,6 +121,7 @@ export class EvaluationAdminDetailComponent {
       },
       error: (error) => {
         console.error('Error submitting answer:', error);
+        this.alertService.displayGenericError();
       },
     });
   }

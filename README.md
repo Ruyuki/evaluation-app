@@ -115,3 +115,7 @@ Autre:
 J'ai utilisé GitHub Copilot, intégré à VS Code, pour résoudre plus rapidement les soucis de syntaxe afin de gagner du temps.
 Il propose également des extraits de code utiles, basés notamment sur le code déjà écrit, que je n'avais plus qu'à adapter à mes besoins.
 Je l'ai également utilisé pour générer la javadoc des méthodes
+
+### Reste à faire
+
+- Ajouter des tests d'intégration springboot/front-end pour vérifier la non régression automatiquement
