@@ -4,9 +4,12 @@ import { map, Observable } from 'rxjs';
 import { EvaluationApiService } from './evaluation-api.service';
 import moment from 'moment';
 import {
+  Answer,
+  AnswerAPI,
   Evaluation,
   EvaluationApi,
   EvaluationsPaginated,
+  EvaluationStatus,
 } from '../models/evaluation.model';
 
 @Injectable({
@@ -30,6 +33,16 @@ export class EvaluationService {
       ...evaluation,
       flightDate: moment(evaluation.flightDate),
       creationDate: moment(evaluation.creationDate),
+      answers: evaluation.answers
+        ? evaluation.answers.map((answer) => this.mapToEvaluationAnswer(answer))
+        : [],
+    };
+  }
+
+  private mapToEvaluationAnswer(answer: AnswerAPI): any {
+    return {
+      ...answer,
+      creationDate: moment(answer.creationDate),
     };
   }
 
@@ -46,14 +59,45 @@ export class EvaluationService {
       creationDate: evaluation.creationDate
         ? evaluation.creationDate.toISOString()
         : null,
+      answers: evaluation.answers
+        ? evaluation.answers.map((answer) =>
+            this.mapToEvaluationAnswerApi(answer),
+          )
+        : [],
     };
   }
 
-  getEvaluationById(id: string): Observable<Evaluation> {
+  private mapToEvaluationAnswerApi(answer: Answer): any {
+    return {
+      ...answer,
+      creationDate: answer.creationDate
+        ? answer.creationDate.toISOString()
+        : null,
+    };
+  }
+
+  getEvaluationById(id: number): Observable<Evaluation> {
     return this.evaluationApiService.getEvaluationById(id).pipe(
       map((evaluation) => {
         return this.mapToEvaluation(evaluation);
       }),
+    );
+  }
+
+  putEvaluationStatus(
+    evaluationId: number,
+    newStatus: EvaluationStatus,
+  ): Observable<void> {
+    return this.evaluationApiService.putEvaluationStatus(
+      evaluationId,
+      newStatus,
+    );
+  }
+
+  postAnswer(evaluationId: number, answer: Answer): Observable<void> {
+    return this.evaluationApiService.postAnswer(
+      evaluationId,
+      this.mapToEvaluationAnswerApi(answer),
     );
   }
 

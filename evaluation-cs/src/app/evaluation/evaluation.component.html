@@ -8,7 +8,12 @@
 
     @if (evaluations$ | async; as evaluations) {
       @if (evaluations.length > 0) {
-        <app-evaluation-list [evaluations]="evaluations"></app-evaluation-list>
+        @for (evaluation of evaluations; track evaluation.id) {
+          <app-evaluation-detail
+            [evaluation]="evaluation"
+            class="block mb-3"
+          ></app-evaluation-detail>
+        }
       } @else {
         <p translate>evaluation.our-evaluations.no-evaluation</p>
       }

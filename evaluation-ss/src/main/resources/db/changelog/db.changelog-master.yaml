@@ -48,3 +48,34 @@ databaseChangeLog:
                   type: datetime
                   constraints:
                     nullable: false
+  - changeSet:
+      id: "Add answer table"
+      author: florent.dedieu
+      changes:
+        - createTable:
+            tableName: answer
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: evaluation_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    referencedTableName: evaluation
+                    referencedColumnNames: id
+                    foreignKeyName: fk_answer_evaluation
+              - column:
+                  name: creation_date
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: comment
+                  type: varchar(4000 )
+                  constraints:
+                    nullable: false

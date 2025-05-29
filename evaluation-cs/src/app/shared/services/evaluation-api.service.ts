@@ -2,8 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
+  AnswerAPI,
   EvaluationApi,
   EvaluationsPaginated,
+  EvaluationStatus,
 } from '../models/evaluation.model';
 
 @Injectable({
@@ -24,10 +26,27 @@ export class EvaluationApiService {
     return this.http.post<void>(this.apiUrl, evaluation);
   }
 
-  getEvaluationById(id: string): Observable<EvaluationApi> {
+  getEvaluationById(id: number): Observable<EvaluationApi> {
     return this.http.get<EvaluationApi>(`${this.apiUrl}/${id}`, {
       responseType: 'json',
     });
+  }
+
+  putEvaluationStatus(
+    evaluationId: number,
+    newStatus: EvaluationStatus,
+  ): Observable<void> {
+    return this.http.put<void>(
+      `${this.apiUrl}/${evaluationId}/status`,
+      newStatus,
+    );
+  }
+
+  postAnswer(evaluationId: number, answer: AnswerAPI): Observable<void> {
+    return this.http.post<void>(
+      `${this.apiUrl}/${evaluationId}/answer`,
+      answer,
+    );
   }
 
   searchEvaluations(

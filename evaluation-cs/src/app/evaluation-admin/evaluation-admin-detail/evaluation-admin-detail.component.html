@@ -1,1 +1,56 @@
-<p>evaluation-admin-detail works!</p>
+<h2 translate>admin.detail.title</h2>
+
+@if (evaluation$ | async; as evaluation) {
+  <div class="flex flex-col space-y-3">
+    <div>
+      <mat-form-field class="w-80">
+        <mat-label translate>admin.detail.field.status</mat-label>
+        <mat-select
+          (selectionChange)="changeStatus(evaluation.id, $event)"
+          [ngModel]="evaluation.status"
+        >
+          <ng-container *ngFor="let status of evaluationStatus | keyvalue">
+            <mat-option [value]="status.value">
+              {{ "admin.status." + (status.value | lowercase) | translate }}
+            </mat-option>
+          </ng-container>
+        </mat-select>
+        <mat-hint translate>admin.detail.field.status-hint</mat-hint>
+      </mat-form-field>
+    </div>
+
+    <app-evaluation-detail [evaluation]="evaluation"></app-evaluation-detail>
+
+    <div class="flex justify-end">
+      <form
+        [formGroup]="evaluationDetailForm"
+        (ngSubmit)="
+          submitAnswer(evaluation.id, evaluationDetailForm.value, formDirective)
+        "
+        #formDirective="ngForm"
+        class="flex flex-col space-y-3 w-3/4"
+      >
+        <mat-form-field>
+          <mat-label translate>admin.detail.field.answer</mat-label>
+          <textarea matInput formControlName="comment"></textarea>
+          <mat-error *ngIf="comment?.hasError('required')" translate
+            >admin.detail.errors.required</mat-error
+          >
+          <mat-error *ngIf="comment?.hasError('maxlength')" translate
+            >admin.detail.errors.comment</mat-error
+          >
+        </mat-form-field>
+
+        <div class="flex justify-end">
+          <button
+            mat-flat-button
+            type="submit"
+            [disabled]="evaluationDetailForm.invalid"
+          >
+            {{ "admin.detail.buttons.submit" | translate }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}

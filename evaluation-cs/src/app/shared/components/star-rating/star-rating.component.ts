@@ -1,7 +1,7 @@
 import { NgClass, NgFor } from '@angular/common';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MAX_RATE } from '../models/global.model';
+import { MAX_RATE } from '../../models/global.model';
 
 export enum StarRatingMode {
   READONLY = 0,
@@ -13,7 +13,6 @@ export enum StarRatingMode {
   standalone: true,
   imports: [MatIconModule, NgFor, NgClass],
   templateUrl: './star-rating.component.html',
-  styleUrls: ['./star-rating.component.scss'],
 })
 export class StarRatingComponent {
   starRatingMode = StarRatingMode;

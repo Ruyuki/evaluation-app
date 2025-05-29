@@ -19,7 +19,7 @@ import { EvaluationService } from '../../shared/services/evaluation.service';
 import {
   StarRatingComponent,
   StarRatingMode,
-} from '../../shared/star-rating/star-rating.component';
+} from '../../shared/components/star-rating/star-rating.component';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -39,7 +39,6 @@ import { TranslateModule } from '@ngx-translate/core';
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './evaluation-edition.component.html',
-  styleUrl: './evaluation-edition.component.scss',
 })
 export class EvaluationEditionComponent {
   starRatingMode = StarRatingMode;
@@ -55,10 +54,7 @@ export class EvaluationEditionComponent {
         null,
         [Validators.required, Validators.minLength(2), Validators.maxLength(2)],
       ],
-      flightNumber: [
-        null,
-        [Validators.required, Validators.minLength(4), Validators.maxLength(4)],
-      ],
+      flightNumber: [null, [Validators.required, Validators.maxLength(4)]],
       flightDate: [null, [Validators.required]],
       rate: [null, [Validators.required]],
       comment: [null, [Validators.required, Validators.maxLength(4000)]],

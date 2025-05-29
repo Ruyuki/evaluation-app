@@ -2,6 +2,7 @@ package com.afklm.evaluation.dto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.afklm.evaluation.domain.Evaluation.Status;
 
@@ -19,4 +20,5 @@ public class EvaluationDTO {
     private String comment;
     private Status status;
     private LocalDateTime creationDate;
+    private List<AnswerDTO> answers;
 }

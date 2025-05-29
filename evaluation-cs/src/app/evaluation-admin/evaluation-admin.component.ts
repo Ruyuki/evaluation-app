@@ -18,7 +18,7 @@ import { EvaluationService } from '../shared/services/evaluation.service';
 import {
   StarRatingComponent,
   StarRatingMode,
-} from '../shared/star-rating/star-rating.component';
+} from '../shared/components/star-rating/star-rating.component';
 import {
   DATE_FORMAT,
   DATE_HOUR_FORMAT,
@@ -58,7 +58,6 @@ import { RouterLink } from '@angular/router';
     KeyValuePipe,
   ],
   templateUrl: './evaluation-admin.component.html',
-  styleUrl: './evaluation-admin.component.scss',
 })
 export class EvaluationAdminComponent {
   starRatingMode = StarRatingMode;

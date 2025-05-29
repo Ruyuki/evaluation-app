@@ -1,4 +1,4 @@
-import { Moment } from 'moment';
+import moment, { Moment } from 'moment';
 
 export enum EvaluationStatus {
   PENDING = 'PENDING',
@@ -15,6 +15,12 @@ export interface EvaluationApi {
   comment: string;
   status: string;
   creationDate: string | null;
+  answers?: AnswerAPI[];
+}
+
+export interface AnswerAPI {
+  creationDate: string | null;
+  comment: string;
 }
 
 export interface Evaluation {
@@ -26,6 +32,12 @@ export interface Evaluation {
   comment: string;
   status: string;
   creationDate: Moment;
+  answers?: Answer[];
+}
+
+export interface Answer {
+  creationDate: Moment;
+  comment: string;
 }
 
 export interface SearchEvaluationDTO {

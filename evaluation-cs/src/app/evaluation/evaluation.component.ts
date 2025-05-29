@@ -1,23 +1,22 @@
+import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { EvaluationEditionComponent } from './evaluation-edition/evaluation-edition.component';
-import { EvaluationListComponent } from './evaluation-list/evaluation-list.component';
-import { EvaluationService } from '../shared/services/evaluation.service';
+import { TranslateModule } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { Evaluation } from '../shared/models/evaluation.model';
-import { AsyncPipe } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { EvaluationService } from '../shared/services/evaluation.service';
+import { EvaluationDetailComponent } from '../shared/components/evaluation-detail/evaluation-detail.component';
+import { EvaluationEditionComponent } from './evaluation-edition/evaluation-edition.component';
 
 @Component({
   selector: 'app-evaluation',
   standalone: true,
   imports: [
     EvaluationEditionComponent,
-    EvaluationListComponent,
+    EvaluationDetailComponent,
     AsyncPipe,
     TranslateModule,
   ],
   templateUrl: './evaluation.component.html',
-  styleUrl: './evaluation.component.scss',
 })
 export class EvaluationComponent {
   evaluations$!: Observable<Evaluation[]>;

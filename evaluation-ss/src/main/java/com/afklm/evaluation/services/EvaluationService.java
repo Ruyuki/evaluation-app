@@ -8,39 +8,32 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.afklm.evaluation.domain.Answer;
 import com.afklm.evaluation.domain.Evaluation;
 import com.afklm.evaluation.domain.Evaluation.Status;
+import com.afklm.evaluation.dto.AnswerDTO;
 import com.afklm.evaluation.dto.EvaluationDTO;
 import com.afklm.evaluation.dto.SearchEvaluationDTO;
+import com.afklm.evaluation.repository.AnswerRepository;
 import com.afklm.evaluation.repository.EvaluationRepository;
 
 @Service
 public class EvaluationService {
 
     private EvaluationRepository evaluationRepository;
+    private AnswerRepository answerRepository;
     
-    public EvaluationService(EvaluationRepository evaluationRepository) {
+    public EvaluationService(EvaluationRepository evaluationRepository,
+     AnswerRepository answerRepository) {
         this.evaluationRepository = evaluationRepository;
+        this.answerRepository = answerRepository;
     }
 
     public List<EvaluationDTO> getPublicEvaluations() {
         return evaluationRepository.findByStatus(Status.PUBLISHED)
             .stream()
-            .map(evaluation -> mapToEvaluationDTO(evaluation))
+            .map(evaluation -> mapToEvaluationDTO(evaluation, true))
             .toList();
-    }
-
-    private EvaluationDTO mapToEvaluationDTO(Evaluation evaluation) {
-        return EvaluationDTO.builder()
-            .id(evaluation.getId())
-            .rate(evaluation.getRate())
-            .company(evaluation.getCompany())
-            .flightNumber(evaluation.getFlightNumber())
-            .flightDate(evaluation.getFlightDate())
-            .comment(evaluation.getComment())
-            .status(evaluation.getStatus())
-            .creationDate(evaluation.getCreationDate())
-            .build();
     }
 
     public void createEvaluation(EvaluationDTO evaluationDTO) {
@@ -65,7 +58,64 @@ public class EvaluationService {
         String flightNumber = searchDTO.getFlightNumber() != null ? searchDTO.getFlightNumber().toLowerCase() : null;
         
         return evaluationRepository.findByCompanyAndRate(company, flightNumber, searchDTO.getMinRate(), searchDTO.getMaxRate(), searchDTO.getStatus(), pageable)
-            .map(evaluation -> mapToEvaluationDTO(evaluation));
+            .map(evaluation -> mapToEvaluationDTO(evaluation, false));
     }
 
+    public EvaluationDTO getEvaluationById(Long id) {
+        Evaluation evaluation = evaluationRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Evaluation not found with id: " + id));
+        
+        return mapToEvaluationDTO(evaluation, true);
+    }
+
+    public void createAnswer(long evaluationId, AnswerDTO answerDTO) {
+        Evaluation evaluation = evaluationRepository.findById(evaluationId)
+            .orElseThrow(() -> new IllegalArgumentException("Evaluation not found with id: " + evaluationId));
+      
+        Answer answer = new Answer();
+        answer.setEvaluation(evaluation);
+        answer.setComment(answerDTO.getComment());
+
+        answerRepository.save(answer);
+    }
+
+    private EvaluationDTO mapToEvaluationDTO(Evaluation evaluation, boolean withAnswers) {
+        EvaluationDTO evaluationDTO = EvaluationDTO.builder()
+            .id(evaluation.getId())
+            .rate(evaluation.getRate())
+            .company(evaluation.getCompany())
+            .flightNumber(evaluation.getFlightNumber())
+            .flightDate(evaluation.getFlightDate())
+            .comment(evaluation.getComment())
+            .status(evaluation.getStatus())
+            .creationDate(evaluation.getCreationDate())
+            .build();
+
+        if (withAnswers && evaluation.getAnswers() != null) {
+            List<AnswerDTO> answers = evaluation.getAnswers()
+                .stream()
+                .map(answer -> AnswerDTO.builder()
+                    .id(answer.getId())
+                    .comment(answer.getComment())
+                    .creationDate(answer.getCreationDate())
+                    .build())
+                .toList();
+            evaluationDTO.setAnswers(answers);
+        }
+
+        return evaluationDTO;
+    }
+
+    public void updateEvaluationStatus(Long id, String status) {
+        Evaluation evaluation = evaluationRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Evaluation not found with id: " + id));
+
+        try {
+            Evaluation.Status newStatus = Evaluation.Status.valueOf(status);
+            evaluation.setStatus(newStatus);
+            evaluationRepository.save(evaluation);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid status: " + status);
+        }
+    }
 }

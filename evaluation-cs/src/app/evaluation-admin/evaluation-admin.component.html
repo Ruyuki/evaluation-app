@@ -35,15 +35,10 @@
       <mat-form-field>
         <mat-label translate>admin.filter.status</mat-label>
         <mat-select formControlName="status">
-          <mat-option value="">{{
-            "admin.filter.statuses.all" | translate
-          }}</mat-option>
+          <mat-option value="">{{ "admin.status.all" | translate }}</mat-option>
           <ng-container *ngFor="let status of evaluationStatus | keyvalue">
             <mat-option [value]="status.value">
-              {{
-                "admin.filter.statuses." + (status.value | lowercase)
-                  | translate
-              }}
+              {{ "admin.status." + (status.value | lowercase) | translate }}
             </mat-option>
           </ng-container>
         </mat-select>

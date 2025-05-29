@@ -21,7 +21,7 @@
       "errors": {
         "required": "Required",
         "company": "Company is 2 characters long",
-        "flight-number": "Flight number is 4 characters long",
+        "flight-number": "Flight number is 4 characters max",
         "comment": "Comment is 4000 numbers long max"
       },
       "buttons": {
@@ -31,6 +31,9 @@
     "our-evaluations": {
       "title": "Look at our evaluations",
       "no-evaluation": "No evaluation."
+    },
+    "detail": {
+      "title": "on {{company}}{{flightNumber}} of the {{flightDate}}"
     }
   },
   "admin": {
@@ -39,13 +42,13 @@
       "company": "Company",
       "flight-number": "Flight number",
       "rate": "Rate",
-      "status": "Status",
-      "statuses": {
-        "all": "All",
-        "pending": "Pending",
-        "published": "Published",
-        "rejected": "Rejected"
-      }
+      "status": "Status"
+    },
+    "status": {
+      "all": "All",
+      "pending": "Pending",
+      "published": "Published",
+      "rejected": "Rejected"
     },
     "table": {
       "column": {
@@ -58,6 +61,21 @@
         "status": "Status"
       },
       "no-evaluation": "No evaluation"
+    },
+    "detail": {
+      "title": "Evaluation details",
+      "field": {
+        "status": "Status",
+        "status-hint": "The new status will be automatically saved",
+        "answer": "Write an answer"
+      },
+      "errors": {
+        "required": "Required",
+        "comment": "Comment is 4000 numbers long max"
+      },
+      "buttons": {
+        "submit": "Submit answer"
+      }
     }
   }
 }
