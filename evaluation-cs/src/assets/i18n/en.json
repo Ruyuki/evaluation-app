@@ -8,6 +8,19 @@
     "error": "An error occured, please try again",
     "close": "Close"
   },
+  "login": {
+    "title": "Login",
+    "field": {
+      "username": "User",
+      "password": "Password"
+    },
+    "errors": {
+      "required": "Required"
+    },
+    "button": {
+      "connection": "Connection"
+    }
+  },
   "evaluation": {
     "evaluate-flight": {
       "title": "Evaluate your flight",

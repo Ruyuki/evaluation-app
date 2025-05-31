@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
@@ -7,14 +7,19 @@ import {
   EvaluationsPaginated,
   EvaluationStatus,
 } from '../models/evaluation.model';
+import { UserService } from '../../core/services/user.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EvaluationApiService {
   private apiUrl = 'http://localhost:8080/api/evaluation';
+  private apiAdminUrl = 'http://localhost:8080/api/evaluation-admin';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private userService: UserService,
+  ) {}
 
   getPublicEvaluations(): Observable<EvaluationApi[]> {
     return this.http.get<EvaluationApi[]>(`${this.apiUrl}/public`, {
@@ -27,7 +32,8 @@ export class EvaluationApiService {
   }
 
   getEvaluationById(id: number): Observable<EvaluationApi> {
-    return this.http.get<EvaluationApi>(`${this.apiUrl}/${id}`, {
+    return this.http.get<EvaluationApi>(`${this.apiAdminUrl}/${id}`, {
+      headers: this.userService.getSecurityHeaders(),
       responseType: 'json',
     });
   }
@@ -37,15 +43,17 @@ export class EvaluationApiService {
     newStatus: EvaluationStatus,
   ): Observable<void> {
     return this.http.put<void>(
-      `${this.apiUrl}/${evaluationId}/status`,
+      `${this.apiAdminUrl}/${evaluationId}/status`,
       newStatus,
+      { headers: this.userService.getSecurityHeaders() },
     );
   }
 
   postAnswer(evaluationId: number, answer: AnswerAPI): Observable<void> {
     return this.http.post<void>(
-      `${this.apiUrl}/${evaluationId}/answer`,
+      `${this.apiAdminUrl}/${evaluationId}/answer`,
       answer,
+      { headers: this.userService.getSecurityHeaders() },
     );
   }
 
@@ -64,9 +72,10 @@ export class EvaluationApiService {
     };
 
     return this.http.post<EvaluationsPaginated<EvaluationApi[]>>(
-      `${this.apiUrl}/search`,
+      `${this.apiAdminUrl}/search`,
       searchEvaluationDTO,
       {
+        headers: this.userService.getSecurityHeaders(),
         params: params,
         responseType: 'json',
       },

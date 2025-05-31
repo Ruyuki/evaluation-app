@@ -1,0 +1,29 @@
+<form
+  [formGroup]="loginForm"
+  (ngSubmit)="login(loginForm.value)"
+  class="flex flex-col space-y-3 w-1/2"
+>
+  <h2 translate>login.title</h2>
+
+  <mat-form-field>
+    <mat-label translate>login.field.username</mat-label>
+    <input matInput formControlName="username" />
+    <mat-error *ngIf="username?.hasError('required')" translate
+      >login.errors.required</mat-error
+    >
+  </mat-form-field>
+
+  <mat-form-field translate>
+    <mat-label translate>login.field.password</mat-label>
+    <input matInput formControlName="password" type="password" />
+    <mat-error *ngIf="password?.hasError('required')" translate
+      >login.errors.required</mat-error
+    >
+  </mat-form-field>
+
+  <div class="flex justify-end">
+    <button mat-flat-button color="primary" type="submit">
+      {{ "login.button.connection" | translate }}
+    </button>
+  </div>
+</form>

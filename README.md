@@ -39,7 +39,7 @@ Answer
 User
 
 - Pour l'exercice, je n'ai pas intégré de classe User parce que je n'ai pas implémenté de manière d'identifier les utilisateurs postants des avis ou des réponses.
-  Mais dans ce cas j'aurai procédé de la même manière, avec une evaluation ayant un auteur, un utilisateur pourvant rédiger 0 à n avis, même chose pour les réponses si on voulait identifier l'utilisateur "admin" qui répond.
+  Mais dans ce cas j'aurai procédé de la même manière, avec une evaluation ayant un auteur, un utilisateur pourvant rédiger 0 à n avis, même chose pour les réponses si on voulait identifier l'utilisateur "ADMIN" qui répond.
 
 ```
 Evaluation 0..*---------------1 User
@@ -53,7 +53,7 @@ Answer 0..*---------------1 User
 J'ai ici séparé les responsabilités en 3 couches:
 
 - Controller: définition des end-point indépendants pour chaque fonctionnalité.
-  On trouverait en plus la partie sécurité pour n'autoriser l'accès aux end-point d'administration qu'aux utilisateurs admin
+  J'ai utilisé 2 controllers : un pour la partie cliente `/evaluation`, et un second pour la partie admin `/evaluation-admin` protégé par une Basic authentification avec `spring-boot-starter-security`
 - Service: une couche service qui se charge de rendre un service particulier pour répondre à une fonctionnalité :
   Récupérer un avis et ses réponses, la liste des avis publiés, la recherche d'avis paginés pour l'admin et le changement de status d'un avis.
   J'ai laissé ici des méthodes privées de transformation d'entité and DTO (Data Transfert Object) car la classe reste simple et que ces transformations ne sont pas utiles ailleurs aujourd'hui
@@ -69,6 +69,8 @@ J'ai ici séparé les responsabilités en 3 couches:
 - J'ai implémenté une recherche paginée des avis pour l'admin.
   Car on peut imaginer que l'historique des avis grossisse grandement, entrainant des problèmes de performances si on remontaient tous les avis sans filtre
 - Pour la liste des avis publiés de la partie cliente, on pourrait imaginer le même système, pour la même raison, mais je n'affiche que les 5 derniers avis pour cette fonctionnalité
+
+- Un package config définit les règles de sécurité pour protéger l'api admin avec `SecurityConfig`, et la configuration CORS nécessaire pour autoriser les requêtes provenant d'un autre domaine (ici localhost:4200, front-end angular), dans `CorsConfig` et `SimpleCorsFilter`
 
 ### Front-end
 
@@ -89,7 +91,9 @@ En terme d'architecture du code:
 
 - Un répertoire core:
   qui va contenir les services globaux à l'application
-  comme le HTTPLoader servant à récupérer le fichier en.json pour l'externalisation des labels (pour faciliter de la maintenance, même si une seule langue est disponible ici)
+  comme le HTTPLoader servant à récupérer le fichier en.json pour l'externalisation des labels (pour faciliter de la maintenance, même si une seule langue est disponible ici).
+  Ainsi qu'un interceptor http qui va rediriger l'utilisateur sur le composant de Login en cas d'erreur 401 sur une requête vers une api protégée.
+  Un userService, permettant de gérer les security headers pour l'authentifications, utilisé par les services qui en ont besoin
 - Un répertoire share:
   pour les composants et services partagés, réutilisables dans plusieurs parties de l'application.
   Ici le composant star-rating, permettant à la fois de donner une note, et d'en afficher une, avec le même format/design.

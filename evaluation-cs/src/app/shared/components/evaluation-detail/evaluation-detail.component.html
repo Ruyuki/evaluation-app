@@ -25,7 +25,9 @@
         >
       </div>
 
-      <mat-divider></mat-divider>
+      @if (evaluation.answers && evaluation.answers.length > 0) {
+        <mat-divider></mat-divider>
+      }
 
       @for (answer of evaluation.answers; track $index) {
         <div class="flex space-x-5">
