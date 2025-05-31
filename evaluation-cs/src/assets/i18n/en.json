@@ -39,7 +39,9 @@
         "required": "Required",
         "company": "Company is 2 characters long",
         "flight-number": "Flight number is 4 characters max",
-        "comment": "Comment is 4000 numbers long max"
+        "flight-date": "The flight date can't be in the future",
+        "comment": "Comment is 4000 characters long max",
+        "rate": "The rate is required"
       },
       "buttons": {
         "submit": "Submit evaluation"

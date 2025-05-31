@@ -47,6 +47,7 @@
         matInput
         formControlName="flightDate"
         [matDatepicker]="flightDatePicker"
+        [max]="maxFlightDate"
       />
       <mat-datepicker-toggle
         matIconSuffix
@@ -55,6 +56,9 @@
       <mat-datepicker #flightDatePicker></mat-datepicker>
       <mat-error *ngIf="flightDate?.hasError('required')" translate
         >evaluation.evaluate-flight.errors.required</mat-error
+      >
+      <mat-error *ngIf="flightDate?.hasError('matDatepickerMax')" translate
+        >evaluation.evaluate-flight.errors.flight-date</mat-error
       >
     </mat-form-field>
   </div>
@@ -82,8 +86,10 @@
     </mat-form-field>
   </div>
   <div class="flex justify-end">
-    <button mat-flat-button type="submit" [disabled]="evaluationForm.invalid">
-      {{ "evaluation.evaluate-flight.buttons.submit" | translate }}
-    </button>
+    <span [matTooltip]="getRateTooltip()">
+      <button mat-flat-button type="submit" [disabled]="evaluationForm.invalid">
+        {{ "evaluation.evaluate-flight.buttons.submit" | translate }}
+      </button>
+    </span>
   </div>
 </form>

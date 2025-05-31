@@ -14,13 +14,15 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
-import { Evaluation } from '../../shared/models/evaluation.model';
-import { EvaluationService } from '../../shared/services/evaluation.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
   StarRatingComponent,
   StarRatingMode,
 } from '../../shared/components/star-rating/star-rating.component';
-import { TranslateModule } from '@ngx-translate/core';
+import { Evaluation } from '../../shared/models/evaluation.model';
+import { EvaluationService } from '../../shared/services/evaluation.service';
+import moment from 'moment';
 
 @Component({
   selector: 'app-evaluation-edition',
@@ -34,6 +36,7 @@ import { TranslateModule } from '@ngx-translate/core';
     MatButton,
     MatButtonToggleModule,
     MatIconModule,
+    MatTooltipModule,
     StarRatingComponent,
     TranslateModule,
   ],
@@ -41,6 +44,7 @@ import { TranslateModule } from '@ngx-translate/core';
   templateUrl: './evaluation-edition.component.html',
 })
 export class EvaluationEditionComponent {
+  maxFlightDate = new Date();
   starRatingMode = StarRatingMode;
 
   evaluationForm: FormGroup;
@@ -48,6 +52,7 @@ export class EvaluationEditionComponent {
   constructor(
     private evaluationService: EvaluationService,
     private formBuilder: FormBuilder,
+    private translateService: TranslateService,
   ) {
     this.evaluationForm = this.formBuilder.group({
       company: [
@@ -98,5 +103,11 @@ export class EvaluationEditionComponent {
         console.error('Error submitting evaluation:', err);
       },
     });
+  }
+
+  getRateTooltip(): string | undefined {
+    return this.rate?.hasError('required')
+      ? this.translateService.instant('evaluation.evaluate-flight.errors.rate')
+      : undefined;
   }
 }
