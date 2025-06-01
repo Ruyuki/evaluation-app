@@ -3,6 +3,7 @@ import { EvaluationComponent } from './evaluation/evaluation.component';
 import { EvaluationAdminComponent } from './evaluation-admin/evaluation-admin.component';
 import { EvaluationAdminDetailComponent } from './evaluation-admin/evaluation-admin-detail/evaluation-admin-detail.component';
 import { LoginComponent } from './core/components/login/login.component';
+import { AuthorizationGuard } from './core/guards/authorization.guard';
 
 export const routes: Routes = [
   {
@@ -19,10 +20,12 @@ export const routes: Routes = [
     path: 'admin',
     component: EvaluationAdminComponent,
     title: 'Administration',
+    canActivate: [AuthorizationGuard],
   },
   {
     path: 'admin/detail/:id',
     component: EvaluationAdminDetailComponent,
     title: 'Evaluation details',
+    canActivate: [AuthorizationGuard],
   },
 ];

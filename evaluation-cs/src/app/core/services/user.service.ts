@@ -16,7 +16,7 @@ export class UserService {
   constructor() {}
 
   login(username: string, password: string): Observable<boolean> {
-    localStorage.setItem(
+    sessionStorage.setItem(
       AUTHORIZATION_HEADER,
       'Basic ' + btoa(username + ':' + password),
     );
@@ -24,7 +24,7 @@ export class UserService {
   }
 
   getSecurityHeaders(): HttpHeaders {
-    const authorizationHeader = localStorage.getItem(AUTHORIZATION_HEADER);
+    const authorizationHeader = sessionStorage.getItem(AUTHORIZATION_HEADER);
     if (authorizationHeader) {
       return new HttpHeaders({
         Authorization: authorizationHeader,
@@ -32,5 +32,9 @@ export class UserService {
     } else {
       return new HttpHeaders();
     }
+  }
+
+  resetSecurityHeaders(): void {
+    sessionStorage.removeItem(AUTHORIZATION_HEADER);
   }
 }

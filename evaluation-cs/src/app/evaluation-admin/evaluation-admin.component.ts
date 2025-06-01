@@ -133,8 +133,8 @@ export class EvaluationAdminComponent {
       searchEvaluationAPI,
       0,
       this.paginator.pageSize,
-      this.defaultSortField,
-      this.defaultSortDirection,
+      this.sort.active || this.defaultSortField,
+      this.sort.direction || this.defaultSortDirection,
     );
   }
 

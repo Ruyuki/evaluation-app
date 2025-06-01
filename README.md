@@ -70,7 +70,7 @@ J'ai ici séparé les responsabilités en 3 couches:
   Car on peut imaginer que l'historique des avis grossisse grandement, entrainant des problèmes de performances si on remontaient tous les avis sans filtre
 - Pour la liste des avis publiés de la partie cliente, on pourrait imaginer le même système, pour la même raison, mais je n'affiche que les 5 derniers avis pour cette fonctionnalité
 
-- Un package config définit les règles de sécurité pour protéger l'api admin avec `SecurityConfig`, et la configuration CORS nécessaire pour autoriser les requêtes provenant d'un autre domaine (ici localhost:4200, front-end angular), dans `CorsConfig` et `SimpleCorsFilter`
+- Un package config définit les règles de sécurité pour protéger l'api admin avec `SecurityConfig`, et la configuration CORS nécessaire pour autoriser les requêtes provenant d'un autre domaine (ici localhost:4200, front-end angular), dans `CorsConfig`
 
 ### Front-end
 
@@ -92,7 +92,7 @@ En terme d'architecture du code:
 - Un répertoire core:
   qui va contenir les services globaux à l'application
   comme le HTTPLoader servant à récupérer le fichier en.json pour l'externalisation des labels (pour faciliter de la maintenance, même si une seule langue est disponible ici).
-  Ainsi qu'un interceptor http qui va rediriger l'utilisateur sur le composant de Login en cas d'erreur 401 sur une requête vers une api protégée.
+  Ainsi qu'une guard qui va rediriger l'utilisateur sur le composant de Login s'il n'est pas déjà logué. Et un intercepteur qui complète ce comportement sur les erreurs 401
   Un userService, permettant de gérer les security headers pour l'authentifications, utilisé par les services qui en ont besoin
 - Un répertoire share:
   pour les composants et services partagés, réutilisables dans plusieurs parties de l'application.
